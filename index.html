@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+<style id="webmakerstyle">
+.bg-black {
+  background-color:#222a36;
+}
+
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebarCollapse {
+  margin-right:10px;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+#title {
+  display:none;
+}
+
+#title.active {
+  display:block;
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\e259';
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+}
+
+a[aria-expanded="true"]::before {
+    content: '\e260';
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+  #title {
+    display:block;
+  }
+  
+  #title.active {
+    display:none;
+  }
+}
+
+*
+    ADDITIONAL DEMO STYLE, NOT IMPORTANT TO MAKE THINGS WORK BUT TO MAKE IT A BIT NICER :)
+*/
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+#sidebar {
+    /* don't forget to add all the previously mentioned styles here too */
+    background: #566dcc;
+    color: #fff;
+    transition: all 0.3s;
+    overflow-y: auto;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+label {
+  margin-bottom:0px;
+  margin-top: .5rem;
+}
+
+.code {
+  display:block;
+  width:80%; 
+  color: #333333; 
+  height: 85vh; 
+  margin: 0 auto;
+  padding: 20px 20px;
+  float: none;
+  overflow-y: scroll;
+}
+</style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-black">
+    <button type="button" id="sidebarCollapse" class="navbar-toggler" style="display:block;">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" id="title" href="#">Easier ESP Arduino</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="https://github.com/tegarimansyah/easier-esp-arduino">About</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="https://github.com/tegarimansyah/easier-esp-arduino">How to start</a>
+      </li>
+    </ul>
+    
+    <div class="dropdown-divider" style="border-color:gray;"></div>
+    
+    <button class="btn btn-success my-2 my-sm-0" type="submit" style="margin-right:5px;" data-toggle="modal" data-target="#save">Save</button>
+  </div>
+</nav>
+  
+<div class="wrapper bg-dark">
+  <nav id="sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <a class="navbar-brand" href="#">Easier ESP Arduino</a>
+    </div>
+
+    
+    <!-- Sidebar Links -->
+    <div class="container py-3">
+      <!--   Board     -->
+      <div id="board">
+        <label>Board:</label><br>
+        <select name="board-config" id="board-config" style="width:75%">
+          <option disabled="" value=" Espressif" style="font-weight: bold;">── Espressif</option>
+          <option value="ESP8266">&nbsp;&nbsp;&nbsp;ESP8266</option>
+          <option value="ESP32">&nbsp;&nbsp;&nbsp;ESP32</option>  
+        </select>
+      </div>
+      
+      <!--   Board     -->
+      <div id="serial">
+        <label>serial:</label><br>
+        <select name="serial-config" id="serial-config" style="width:75%">
+          <option value="enable" selected="selected">Enable</option>
+          <option value="disable">Disable</option>  
+        </select>
+      </div>
+      
+      <!--   Wifi     -->
+      <div id="wifi">
+        <label>Wifi Connection:</label><br>
+        <select name="wifi-config" id="wifi-config" style="width:75%">
+          <option value="No">Turn Off Wifi</option>
+          <option value="AP">Access Point (AP)</option>  
+          <option value="STA">Connect to Wifi (STA)</option>  
+          <option value="APSTA">AP + STA</option>  
+        </select>
+
+        <div id="AP">
+          <label>Make an Access Point</label>
+          <input type="text" name="apssid" placeholder="SSID" style="width:75%;">
+          <input type="text" name="appass" placeholder="********" style="width:75%">        
+        </div>
+
+        <div id="STA">
+          <label>Connect to Wifi</label>
+          <input type="text" name="stassid" placeholder="SSID" style="width:75%;">
+          <input type="text" name="stapass" placeholder="********" style="width:75%">
+        </div>
+      </div>
+      
+      <!--   mDNS     -->
+      <div id="mDNS">
+        <label>mDNS:</label><br>
+        <select name="mDNS-config" id="mDNS-config" style="width:75%">
+          <option value="enable">Enable</option>
+          <option value="disable" selected="selected">Disable</option>  
+        </select>
+
+        <div id="mDNSname">
+          <label>mDNS Name</label>
+          <input type="text" placeholder="SSID" style="width:75%;">   
+        </div>
+      </div>
+      
+    </div>
+  </nav>
+  <div class="container py-3">
+    
+      <pre><code class="code bg-white">
+      
+        This site will generate C++ code for your ESP-Arduino.
+        
+        Still on Alpha, not ready yet to generate.
+        Please leave me a note for future feature idea on 
+        https://github.com/tegarimansyah/easier-esp-arduino
+        
+        Just drop an issue there.
+        
+        Best regards,
+        Tegar Imansyah
+        </code></pre>
+    
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="bg-black text-white">
+  <div class="container">
+    <div class="row">
+<!--       <div class="col-md-12 mt-3 text-center">
+          <button class="btn btn-success my-2 my-sm-0" type="submit" style="margin-right:5px;" data-toggle="modal" data-target="#hiremodal">Hire Firmware Designer</button>
+      </div> -->
+      <div class="col-md-12 mt-3">
+        <p class="text-center text-white">© Copyright 2018 Tegar Imansyah - All rights reserved. </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Hire-->
+<!-- <div class="modal fade" id="hiremodal" tabindex="-1" role="dialog" aria-labelledby="hiremodal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Hire Me for Remote Firmware Designer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Hello, I'm Tegar Imansyah from Surabaya, Indonesia. Drop me your email and we will have a chit-chat.<br>
+        <i class="fa fa-envelope"></i> <a href="mailto:tegar@imansyah.name">tegar@imansyah.name</a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- Modal save-->
+<div class="modal fade" id="save" tabindex="-1" role="dialog" aria-labelledby="save" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Save not yet implemented</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Sorry, feature for saving your project is not yet implemented.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function () {
+
+  $('#sidebarCollapse').on('click', function () {
+    $('#sidebar').toggleClass('active');
+    $('#title').toggleClass('active');
+  });
+  
+  $('#AP').hide();
+  $('#STA').hide();
+  $('#wifi-config').on('change', function() {
+    $('#AP').hide();
+    $('#STA').hide();
+    if (this.value == 'AP' || this.value == 'APSTA' ) {
+      $('#AP').show();
+    }
+    if (this.value == 'STA' || this.value == 'APSTA' ) {
+      $('#STA').show();
+    }
+  });
+  
+  $('#mDNSname').hide();
+  $('#mDNS-config').on('change', function() {
+    $('#mDNSname').hide();
+    if (this.value == 'enable') {
+      $('#mDNSname').show();
+    }
+  });
+
+});
+
+
+//# sourceURL=userscript.js
+</script>
+</body>
+</html>
